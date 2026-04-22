@@ -1,0 +1,40 @@
+# Compiled files
+target/
+*.class
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.vscode/
+fastRequest/
+
+# Log files
+*.log
+logs/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Uploaded files (contains real product images!)
+uploads/
+
+# Maven wrapper (keep mvnw, mvnw.cmd - but ignore the jar)
+.mvn/wrapper/maven-wrapper.jar
+
+# Application properties with secrets (use environment variables)
+application-local.properties
+application-prod.properties
+
+# Test reports
+TEST_COVERAGE_IMPROVEMENTS.md
+USERSERVICE_TEST_GUIDE.md
+COMPLETION_REPORT.md
+
+# Help file (optional - can keep if you want)
+# HELP.md
