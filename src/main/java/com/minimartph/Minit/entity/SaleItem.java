@@ -27,7 +27,7 @@ public class SaleItem {
   private int quantity;
 
   @Column(nullable = false)
-  private BigDecimal unitPrice; // price at time of sale
+  private BigDecimal unitPrice;
 
   @Column(nullable = false)
   private BigDecimal subtotal;

@@ -14,21 +14,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+@Getter
 @Service
 public class FileStorageService {
 
-  @Getter private final Path fileStorageLocation;
-
-  private final ProductRepository productRepository;
-  private final UserRepository userRepository;
+  private final Path fileStorageLocation;
 
   public FileStorageService(
       @Value("${file.upload-dir}") String uploadDir,
       ProductRepository productRepository,
       UserRepository userRepository) {
     this.fileStorageLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
-    this.productRepository = productRepository;
-    this.userRepository = userRepository;
 
     System.out.println("FileStorageService base directory: " + this.fileStorageLocation);
     try {
@@ -72,7 +68,4 @@ public class FileStorageService {
     }
   }
 
-  public Path getFileStorageLocation() {
-    return fileStorageLocation;
-  }
 }

@@ -22,9 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/users")
 public class UserController {
 
-  @Autowired private UserService userService;
+  private final UserService userService;
 
-  @Autowired private UserMapper userMapper;
+  private final UserMapper userMapper;
+
+  UserController(UserService userService, UserMapper userMapper) {
+    this.userService = userService;
+    this.userMapper = userMapper;
+  }
 
   @PostMapping("/register")
   public ResponseEntity<UserResponse> registerStaff(
@@ -94,20 +99,12 @@ public class UserController {
 
   @PostMapping("/{id}/change-password")
   public ResponseEntity<?> changePassword(
-      @PathVariable Long id,
-      @Valid @RequestBody ChangePasswordRequest request,
-      Authentication authentication) {
+          @PathVariable Long id,
+          @Valid @RequestBody ChangePasswordRequest request,
+          Authentication authentication) {
 
-    User currentUser = userService.findUserByUsername(authentication.getName());
-    if (currentUser == null || !currentUser.getId().equals(id)) {
-      return ResponseEntity.status(HttpStatus.FORBIDDEN)
-          .body(Map.of("message", "You can only change your own password"));
-    }
+    userService.changePasswordWithAuthorization(id, request, authentication.getName());
 
-    userService.changePassword(
-        id, request.getCurrentPassword(), request.getNewPassword(), request.getConfirmPassword());
-
-    return ResponseEntity.ok(
-        Map.of("message", "Password changed successfully. Please log in again."));
+    return ResponseEntity.ok(Map.of("message", "Password changed successfully. Please log in again."));
   }
 }

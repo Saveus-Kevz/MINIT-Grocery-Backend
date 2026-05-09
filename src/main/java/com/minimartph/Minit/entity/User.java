@@ -38,9 +38,9 @@ public class User {
   @Column(unique = true, nullable = false, length = 100)
   private String email;
 
-  @Enumerated(EnumType.STRING) // ← Add this
+  @Enumerated(EnumType.STRING) //
   @Column(nullable = false, length = 10)
-  private Gender gender; // ← Changed from String to Gender
+  private Gender gender; //
 
   @Column(nullable = false, length = 20)
   private String phoneNumber;
@@ -59,7 +59,7 @@ public class User {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, length = 10)
-  private Role role;
+  private Role role; // ADMIN, CASHIER - ADMIN is also a CASHIER
 
   @Column(nullable = false)
   private boolean active = true;

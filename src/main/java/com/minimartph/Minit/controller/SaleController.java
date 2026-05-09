@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/sales")
 public class SaleController {
 
-  @Autowired private SaleService saleService;
+  private final SaleService saleService;
+
+  SaleController(SaleService saleService) {
+    this.saleService = saleService;
+  }
 
   @PostMapping("/calculate")
   public ResponseEntity<SaleCalculationResponse> calculate(
@@ -30,7 +33,7 @@ public class SaleController {
 
   @PostMapping
   public ResponseEntity<SaleResponse> createSale(@Valid @RequestBody SaleRequest request) {
-    // Get cashierId from security context instead of hardcoded fallback
+    // Get cashierId from a security context instead of hardcoded fallback
     SaleResponse response = saleService.createSale(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }

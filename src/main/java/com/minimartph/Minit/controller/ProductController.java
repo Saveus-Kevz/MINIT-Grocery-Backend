@@ -3,13 +3,11 @@ package com.minimartph.Minit.controller;
 import com.minimartph.Minit.dto.ProductCreateRequest;
 import com.minimartph.Minit.dto.ProductResponse;
 import com.minimartph.Minit.dto.ProductUpdateRequest;
-import com.minimartph.Minit.service.ImageStorageService;
 import com.minimartph.Minit.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 public class ProductController {
 
-  @Autowired private ProductService productService;
-
-  @Autowired private ImageStorageService imageStorageService;
+  private final ProductService productService;
+  ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
   @GetMapping
   public ResponseEntity<Page<ProductResponse>> getAllProducts(

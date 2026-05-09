@@ -21,12 +21,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class SaleService {
 
   private final SaleRepository saleRepository;
   private final ProductRepository productRepository;
   private final UserRepository userRepository;
+
+  SaleService(SaleRepository saleRepository, ProductRepository productRepository, UserRepository userRepository) {
+    this.saleRepository = saleRepository;
+    this.productRepository = productRepository;
+    this.userRepository = userRepository;
+  }
 
   // ========== QUERY METHODS ==========
 
@@ -121,15 +126,13 @@ public class SaleService {
   // --- Create sale with cashier from security context ---
   @Transactional
   public SaleResponse createSale(SaleRequest request) {
-    // Get cashier from security context (no hardcoded fallback)
+    // Get cashier from a security context
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth == null || !auth.isAuthenticated()) {
       throw new InvalidCredentialsException("Not authenticated");
     }
 
-    User cashier =
-        userRepository
-            .findByUsernameAndActiveTrue(auth.getName())
+    User cashier = userRepository.findByUsernameAndActiveTrue(auth.getName())
             .orElseThrow(() -> new ResourceNotFoundException("Cashier", auth.getName()));
 
     // Validate items and calculate subtotal
@@ -203,6 +206,7 @@ public class SaleService {
     }
 
     Sale savedSale = saleRepository.save(sale);
+
     return toSaleResponse(savedSale);
   }
 

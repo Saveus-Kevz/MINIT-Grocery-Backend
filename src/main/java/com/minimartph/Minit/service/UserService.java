@@ -1,5 +1,6 @@
 package com.minimartph.Minit.service;
 
+import com.minimartph.Minit.dto.ChangePasswordRequest;
 import com.minimartph.Minit.dto.UserRegistrationRequest;
 import com.minimartph.Minit.dto.UserUpdateRequest;
 import com.minimartph.Minit.entity.User;
@@ -78,6 +79,7 @@ public class UserService implements UserDetailsService {
     user.setPhotoUrl(request.getPhotoUrl());
     user.setResumeUrl(request.getResumeUrl());
     user.setBarangayClearanceUrl(request.getBarangayClearanceUrl());
+
     User savedUser = userRepository.save(user);
 
     // Send email (handle exception to avoid breaking registration)
@@ -340,5 +342,17 @@ public class UserService implements UserDetailsService {
     user.setPassword(encodedNewPassword);
 
     userRepository.save(user);
+  }
+
+  @Transactional
+  public void changePasswordWithAuthorization(Long id, ChangePasswordRequest request, String currentUsername) {
+
+    User currentUser = findUserByUsername(currentUsername);
+    if (currentUser == null || !currentUser.getId().equals(id)) {
+      throw new InvalidCredentialsException("You can only change your own password");
+    }
+
+    // Call an existing method - NO NEW VALIDATION
+    changePassword(id, request.getCurrentPassword(), request.getNewPassword(), request.getConfirmPassword());
   }
 }
