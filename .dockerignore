@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# Build output - don't copy old jars
+target/
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Docker files (don't copy these into the image)
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Node modules (if you have frontend in same repo)
+node_modules/
+
+# Environment files
+.env
+.env.local

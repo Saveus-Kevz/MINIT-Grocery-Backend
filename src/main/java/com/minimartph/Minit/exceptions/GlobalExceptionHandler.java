@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-  // Handle MaxUploadSizeExceededException - DON'T use @ExceptionHandler here since parent class
+  // Handle MaxUploadSizeExceededException - DON'T use @ExceptionHandler here since the parent class
   // already handles it
   // Override the parent method instead
   @Override

@@ -23,13 +23,24 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ProductService {
 
-  @Autowired private ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
-  @Autowired private ProductMapper productMapper;
+  private final ProductMapper productMapper;
 
-  @Autowired private ImageStorageService imageStorageService;
+  private final ImageStorageService imageStorageService;
 
-  @Autowired private FileStorageService fileStorageService;
+  private final FileStorageService fileStorageService;
+
+  ProductService(
+      ProductRepository productRepository,
+      ProductMapper productMapper,
+      ImageStorageService imageStorageService,
+      FileStorageService fileStorageService) {
+    this.productRepository = productRepository;
+    this.productMapper = productMapper;
+    this.imageStorageService = imageStorageService;
+    this.fileStorageService = fileStorageService;
+  }
 
   // ========== QUERY METHODS ==========
 

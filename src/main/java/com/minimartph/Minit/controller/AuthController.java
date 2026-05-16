@@ -18,17 +18,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  @Autowired private AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-  @Autowired private JwtUtil jwtUtil;
+  private final JwtUtil jwtUtil;
 
-  @Autowired private UserService userService;
+  private final UserService userService;
+
+  AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserService userService) {
+    this.authenticationManager = authenticationManager;
+    this.jwtUtil = jwtUtil;
+    this.userService = userService;
+  }
 
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-    Authentication authentication =
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+    Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+    );
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     User user = userService.findUserByUsername(request.getUsername());

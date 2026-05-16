@@ -36,7 +36,6 @@ public class DataInitializer implements CommandLineRunner {
       userRepository.save(admin);
       System.out.println("Default admin created with ID: " + admin.getId());
     }
-
     // Create a cashier if none exists with role CASHIER
     if (userRepository.findByRole(Role.CASHIER).isEmpty()) {
       User cashier = new User();

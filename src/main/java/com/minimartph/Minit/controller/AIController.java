@@ -3,7 +3,6 @@ package com.minimartph.Minit.controller;
 import com.minimartph.Minit.service.ImageStorageService;
 import com.minimartph.Minit.service.SearchApiImageService;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +10,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/ai")
 public class AIController {
 
-  @Autowired private SearchApiImageService searchApiImageService;
+  private final SearchApiImageService searchApiImageService;
 
-  @Autowired private ImageStorageService imageStorageService;
+  private final ImageStorageService imageStorageService;
+
+  AIController(SearchApiImageService searchApiImageService, ImageStorageService imageStorageService) {
+    this.searchApiImageService = searchApiImageService;
+    this.imageStorageService = imageStorageService;
+  }
 
   @PostMapping("/generate-image")
   public ResponseEntity<String> generateImage(@RequestBody Map<String, String> payload) {

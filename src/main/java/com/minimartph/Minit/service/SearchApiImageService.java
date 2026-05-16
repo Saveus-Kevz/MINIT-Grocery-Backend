@@ -1,6 +1,5 @@
 package com.minimartph.Minit.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,11 @@ public class SearchApiImageService {
 
   private static final String SEARCHAPI_URL = "https://www.searchapi.io/api/v1/search";
 
-  @Autowired private RestTemplate restTemplate;
+  private final RestTemplate restTemplate;
+
+  SearchApiImageService(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
+  }
 
   public String searchProductImage(String productName) {
     try {
